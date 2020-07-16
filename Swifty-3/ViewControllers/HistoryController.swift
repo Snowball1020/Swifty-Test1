@@ -8,14 +8,14 @@
 
 import UIKit
 
-//Remote Git Push Testing
-
+//HistoryController class is to show user search history
 class HistoryController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    //This array is for storing user search history (data will be passed from mapView)
     var finalHistory:[String] = []
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
+        //display as many row as the data exists
         return finalHistory.count
     }
     
@@ -23,8 +23,7 @@ class HistoryController: UIViewController, UITableViewDelegate, UITableViewDataS
     {
         let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cell")
             cell.textLabel?.text = finalHistory[indexPath.row]
-
-        print(cell.textLabel?.text)
+//        print(cell.textLabel?.text)
         return(cell)
         
     }
