@@ -11,14 +11,18 @@ import MapKit
 import CoreLocation
 import CoreData
 import FirebaseAuth
+import Firebase
 
 class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+    
     
     //Connect each element to code
     @IBOutlet weak var myMapView: MKMapView!
     @IBOutlet weak var searchBox: UITextField!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var historyTextField: UITextField!
+    
+    @IBOutlet weak var loggedInUser: UILabel!
     
     //this array is for storing users search history
     var history:[String] = []
@@ -28,6 +32,12 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+            //display logged in user
+        let user = Auth.auth().currentUser?.email
+//        print("From map view : \(user)")
+        loggedInUser.text = user
+        
            // having data for Annotations - using Dictionary
             let locations = [
                 ["title": "New York, NY",  "description":"" , "latitude": 40.713054, "longitude": -74.007228],
@@ -176,4 +186,34 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             return render
         }
             
+    @IBAction func logoutButtonTapped(_ sender: Any) {
+             
+        let refreshAlert = UIAlertController(title: "You are trying to log out", message: "Are you sure you want to log out??", preferredStyle: UIAlertController.Style.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                     let firebaseAuth = Auth.auth()
+              do {
+                try firebaseAuth.signOut()
+                  
+                  let loginViewController =
+                      self.storyboard?.instantiateViewController(identifier: Contants.Storyboard.loginController) as? LoginController
+                  
+                  self.view.window?.rootViewController = loginViewController
+                  self.view.window?.makeKeyAndVisible()
+
+                  
+              } catch let signOutError as NSError {
+                print ("Error signing out: %@", signOutError)
+              }
+
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+              print("Handle Cancel Logic here")
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
+      
+          
+    }
 }

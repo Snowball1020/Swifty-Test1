@@ -12,29 +12,16 @@ import Firebase
 
 class SignUpViewController: UIViewController {
 
-    
-    
-    
     @IBOutlet weak var firstnameTextField: UITextField!
-    
-    
     @IBOutlet weak var lastnameTextField: UITextField!
-    
-    
     @IBOutlet weak var errorLabel: UILabel!
-    
     @IBOutlet weak var emailTextField: UITextField!
-    
-    
     @IBOutlet weak var passwordTextField: UITextField!
-    
     
     @IBOutlet weak var signupButton: UIButton!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
     
@@ -49,14 +36,12 @@ class SignUpViewController: UIViewController {
 
             return "Please fill in all fields."
         }
-        
         //check if the password is secured enough
         let cleanedPassword = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if isPasswordValid(cleanedPassword) == false {
             return "please make sure yur password is secured enough"
         }
-        
         return nil
     }
     func isPasswordValid(_ password : String) -> Bool{
@@ -66,7 +51,6 @@ class SignUpViewController: UIViewController {
 
     
     @IBAction func signupButtonTapped(_ sender: Any) {
-        
         
         //validate fieled
         let error = validateFields()
@@ -98,15 +82,11 @@ class SignUpViewController: UIViewController {
                             self.showError("User data couldnt be created")
                         }
                     }
-                    
                     //transition to map
                     self.transitionToMap()
-                    
                 }
             }
-            
         }
-        
     }
     
     func showError(_ message:String){
@@ -116,10 +96,8 @@ class SignUpViewController: UIViewController {
     }
     
     func transitionToMap(){
-    
         let mapViewController =
             storyboard?.instantiateViewController(identifier: Contants.Storyboard.mapViewController) as? MapViewController
-        
         view.window?.rootViewController = mapViewController
         view.window?.makeKeyAndVisible()
     }

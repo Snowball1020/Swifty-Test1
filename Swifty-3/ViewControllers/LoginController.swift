@@ -8,21 +8,21 @@
 
 import UIKit
 import FirebaseAuth
+import Firebase
+import FirebaseDatabase
 
 class LoginController: UIViewController {
-
     
+    var ref: DatabaseReference!
     
     @IBOutlet weak var emailTextFirld: UITextField!
-    
     @IBOutlet weak var errorLabel: UILabel!
-    
     @IBOutlet weak var passwordTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ref = Database.database().reference()
     }
-    
 
     @IBAction func loginButtonTapped(_ sender: Any) {
         
@@ -31,21 +31,29 @@ class LoginController: UIViewController {
         //create cleaned ver of the test field
         let email = emailTextFirld.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+
         //log in
-        
         Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
             if error != nil {
                 self.errorLabel.text = error!.localizedDescription
                 self.errorLabel.alpha = 1
             }else{
+                
+                let userEmail = Auth.auth().currentUser?.email
+                print(userEmail)
+
                 let mapViewController =
                     self.storyboard?.instantiateViewController(identifier: Contants.Storyboard.mapViewController) as? MapViewController
                 
                 self.view.window?.rootViewController = mapViewController
                 self.view.window?.makeKeyAndVisible()
-
+            
+                }
+            
             }
+                
+           }
         }
-    }
+
     
-}
+

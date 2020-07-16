@@ -11,5 +11,6 @@ import Foundation
 struct Contants {
     struct Storyboard {
        static let mapViewController = "MapVC"
+       static let loginController = "LoginVC"
     }
 }
